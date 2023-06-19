@@ -54,5 +54,4 @@ class Board:
     return [row[column] for row in self.grid]
 
   def get_cell(self, row, column):
-    print(f'getting cell {row}, {column}')
     return self.grid[row][column]

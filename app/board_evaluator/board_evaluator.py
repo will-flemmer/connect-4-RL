@@ -32,10 +32,12 @@ class BoardEvaluator():
   def check_array_for_win(self, array):
     current_count = 0
     for i in array:
+      if current_count == 4:
+        break
       if i == self.current_symbol:
         current_count += 1
       else:
-        current_count
+        current_count = 0
     if current_count == 4:
       self.winner = self.current_agent
 

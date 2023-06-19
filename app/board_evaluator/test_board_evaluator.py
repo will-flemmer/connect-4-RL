@@ -25,6 +25,28 @@ def test_can_spot_a_horizontal_win():
   assert result['completed'] == True
   assert result['winner'] == red_agent
 
+def test_does_not_count_a_horizontal_win_if_not_connected():
+  board = Board()
+  red_agent = Agent('Bob', 'red', board)
+  blue_agent = Agent('Ted', 'blue', board)
+  evaluator = BoardEvaluator(board, red_agent, blue_agent)
+
+  board.grid[0][0] = 'R'
+  result = evaluator.evaluate(red_agent, {'row': 0, 'column': 0})
+  assert result['completed'] == False
+
+  board.grid[0][1] = 'R'
+  result = evaluator.evaluate(red_agent, {'row': 0, 'column': 1})
+  assert result['completed'] == False
+
+  board.grid[0][2] = 'R'
+  result = evaluator.evaluate(red_agent, {'row': 0, 'column': 2})
+  assert result['completed'] == False
+
+  board.grid[0][4] = 'R'
+  result = evaluator.evaluate(red_agent, {'row': 0, 'column': 3})
+  assert result['completed'] == False
+
 def test_can_spot_a_vertical_win():
   board = Board()
   red_agent = Agent('Bob', 'red', board)
