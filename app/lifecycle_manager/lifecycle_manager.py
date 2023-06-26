@@ -5,8 +5,8 @@ import os
 
 class LifeCycleManager():
   game_finished = False
-  def __init__(self, red_agent, blue_agent):
-    self.board = Board()
+  def __init__(self, red_agent, blue_agent, row_count=6, column_count=7):
+    self.board = Board(row_count=row_count, column_count=column_count)
     self.grid = self.board.grid
     self.red_agent = red_agent
     self.current_turn = self.red_agent

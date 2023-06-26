@@ -2,7 +2,7 @@ import random
 
 class RLAgent():
   def __init__(self, color: str):
-    self.name = f'RL-Agent-{color}'.capitalize()
+    self.name = f'RL-Agent-{color.capitalize()}'
     self.color = color
     self.symbol = color[0].capitalize()
 
@@ -15,5 +15,4 @@ class RLAgent():
 
   def place_block(self):
     column = self.choose_action()
-    column_valid = self.board.validate_move(column)
     return self.board.place_block(column, self.symbol)

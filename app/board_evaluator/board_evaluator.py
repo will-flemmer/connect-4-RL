@@ -3,6 +3,8 @@ class BoardEvaluator():
   def __init__(self, board, red_agent, blue_agent):
     self.board = board
     self.winner = None
+    self.max_row = board.row_count - 1
+    self.max_column = board.column_count - 1
 
   def evaluate(self, agent, coords):
     self.board.print_board()
@@ -61,7 +63,7 @@ class BoardEvaluator():
       row -= 1
       column -= 1
     
-    while row < (self.board.grid_width - 1) and column < (self.board.grid_height - 1):
+    while row < (self.max_row) and column < (self.max_column):
       diagonal.append(self.board.get_cell(row, column))
       row += 1
       column += 1
@@ -71,16 +73,15 @@ class BoardEvaluator():
     diagonal = []
     min_row = row
     max_column = column
-    while min_row > 0 and max_column < self.board.grid_height:
+    while min_row > 0 and max_column < (self.max_column):
       min_row -= 1
       max_column += 1
     
-    while min_row < (self.board.grid_width - 1) and max_column >= 0:
+    while min_row < (self.max_row) and max_column >= 0:
       diagonal.append(self.board.get_cell(min_row, max_column))
       min_row += 1
       max_column -= 1
     return diagonal
-
 
   def is_completed(self):
     return self.is_draw() or bool(self.winner)

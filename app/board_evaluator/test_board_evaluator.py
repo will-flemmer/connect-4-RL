@@ -1,12 +1,22 @@
 from ..board import Board
 from . import BoardEvaluator
 from ..agent import Agent
+from ..setup_test_env import setup_test_env
+
+def test_setup():
+  test_env = setup_test_env()
+  return {
+    'board_evaluator': BoardEvaluator(test_env['lcm'].board, test_env['red_agent'], test_env['blue_agent']),
+    'red_agent': test_env['red_agent'],
+    'blue_agent': test_env['blue_agent'],
+    'board': test_env['lcm'].board
+  }
 
 def test_can_spot_a_horizontal_win():
-  board = Board()
-  red_agent = Agent('Bob', 'red', board)
-  blue_agent = Agent('Ted', 'blue', board)
-  evaluator = BoardEvaluator(board, red_agent, blue_agent)
+  setup = test_setup()
+  evaluator = setup['board_evaluator']
+  red_agent = setup['red_agent']
+  board = setup['board']
 
   board.grid[0][0] = 'R'
   result = evaluator.evaluate(red_agent, {'row': 0, 'column': 0})
@@ -26,10 +36,10 @@ def test_can_spot_a_horizontal_win():
   assert result['winner'] == red_agent
 
 def test_does_not_count_a_horizontal_win_if_not_connected():
-  board = Board()
-  red_agent = Agent('Bob', 'red', board)
-  blue_agent = Agent('Ted', 'blue', board)
-  evaluator = BoardEvaluator(board, red_agent, blue_agent)
+  setup = test_setup()
+  evaluator = setup['board_evaluator']
+  red_agent = setup['red_agent']
+  board = setup['board']
 
   board.grid[0][0] = 'R'
   result = evaluator.evaluate(red_agent, {'row': 0, 'column': 0})
@@ -48,10 +58,11 @@ def test_does_not_count_a_horizontal_win_if_not_connected():
   assert result['completed'] == False
 
 def test_can_spot_a_vertical_win():
-  board = Board()
-  red_agent = Agent('Bob', 'red', board)
-  blue_agent = Agent('Ted', 'blue', board)
-  evaluator = BoardEvaluator(board, red_agent, blue_agent)
+  setup = test_setup()
+  evaluator = setup['board_evaluator']
+  blue_agent = setup['blue_agent']
+  board = setup['board']
+
   board.grid[1][0] = 'B'
   board.grid[2][0] = 'B'
   board.grid[3][0] = 'B'
@@ -64,10 +75,11 @@ def test_can_spot_a_vertical_win():
   assert result['winner'] == blue_agent
 
 def test_can_spot_a_positive_diagonal_win():
-  board = Board()
-  red_agent = Agent('Bob', 'red', board)
-  blue_agent = Agent('Ted', 'blue', board)
-  evaluator = BoardEvaluator(board, red_agent, blue_agent)
+  setup = test_setup()
+  evaluator = setup['board_evaluator']
+  blue_agent = setup['blue_agent']
+  board = setup['board']
+
   board.grid[1][0] = 'B'
   board.grid[2][1] = 'B'
   board.grid[3][2] = 'B'
@@ -80,10 +92,11 @@ def test_can_spot_a_positive_diagonal_win():
   assert result['winner'] == blue_agent
 
 def test_can_spot_a_negative_diagonal_win():
-  board = Board()
-  red_agent = Agent('Bob', 'red', board)
-  blue_agent = Agent('Ted', 'blue', board)
-  evaluator = BoardEvaluator(board, red_agent, blue_agent)
+  setup = test_setup()
+  evaluator = setup['board_evaluator']
+  blue_agent = setup['blue_agent']
+  board = setup['board']
+
   board.grid[1][3] = 'B'
   board.grid[2][2] = 'B'
   board.grid[3][1] = 'B'

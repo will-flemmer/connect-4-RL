@@ -1,23 +1,26 @@
+import pdb
 
 class Board:
-  grid_width = 7
-  grid_height = 6
+  def __init__(self, column_count=7, row_count=6):
+    self.column_count = column_count
+    self.row_count = row_count
+    self.create_grid()
 
-  def __init__(self):
+  def create_grid(self):
     gridline = []
-    for i in range(self.grid_width):
+    for _ in range(self.column_count):
         gridline.append('-')
     grid = []
-    for i in range(self.grid_height):
+    for _ in range(self.row_count):
         grid.append(list(gridline))
 
     print(f'grid has {len(grid)} rows and {len(grid[0])} columns')
     self.grid = grid
   
   def print_board(self):
-    for i in range(self.grid_height):
+    for i in range(self.row_count):
       print(self.grid[i])
-    print([f'{i}' for i in range(self.grid_width)])
+    print([f'{i}' for i in range(self.column_count)])
 
   def place_block(self, column, symbol):
     print(f'placing column {column} with symbol {symbol}')
@@ -30,16 +33,16 @@ class Board:
     }
   
   def validate_move(self, column):
-    if column < 0 or column > 6:
+    if column < 0 or column > self.column_count - 1:
       return False
     row = self.find_next_free_row(column)
-    if row < 0 or row > self.grid_height:
+    if row < 0 or row > self.row_count:
       return False
     return True
   
   def find_next_free_row(self, column):
     row = -1
-    for i in reversed(range(self.grid_height)):
+    for i in reversed(range(self.row_count)):
       if self.grid[i][column] == '-':
         print(f'found free row {i}')
         row = i
@@ -54,4 +57,6 @@ class Board:
     return [row[column] for row in self.grid]
 
   def get_cell(self, row, column):
+    print(f'getting cell at row {row} and column {column}')
+    # pdb.set_trace()
     return self.grid[row][column]
