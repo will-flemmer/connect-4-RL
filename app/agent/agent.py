@@ -1,16 +1,13 @@
 from app.board.board import Board
+from .base_agent import BaseAgent
 
-class Agent():
+class Agent(BaseAgent):
   def __init__(self, name: str, color: str):
     self.validate(color)
     self.name = name
     self.color = color
     self.symbol = color[0].capitalize()
     print(f'{self.name} has entered the game as team {self.color}')
-
-  def add_to_game(self, game):
-    self.game = game
-    self.board = game.board
   
   def validate(self, color):
     valid_colors = ['red', 'blue']

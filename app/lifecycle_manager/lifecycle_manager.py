@@ -1,10 +1,12 @@
 from app.agent.agent import Agent
 from app.board.board import Board
 from app.board_evaluator.board_evaluator import BoardEvaluator
+from ..utils import has_method
 import os
 
 class LifeCycleManager():
   game_finished = False
+  winner = None
   def __init__(self, red_agent, blue_agent, row_count=6, column_count=7):
     self.board = Board(row_count=row_count, column_count=column_count)
     self.grid = self.board.grid
@@ -25,6 +27,7 @@ class LifeCycleManager():
     while not self.game_finished:
       coords = self.make_move()
       self.evaluate_board(coords)
+      self.post_evaluation_hook()
 
   def evaluate_board(self, coords):
     result = self.evaluator.evaluate(self.current_turn, coords)
@@ -33,6 +36,7 @@ class LifeCycleManager():
       print('Game over!')
       print(f'{result["winner"].name} has won the game!')
       self.game_finished = True
+      self.winner = result['winner']
     else:
       self.current_turn = self.blue_agent if self.current_turn == self.red_agent else self.red_agent
 
@@ -42,3 +46,9 @@ class LifeCycleManager():
     self.board.print_board()
     print(f'{agent.name}\'s turn ({agent.color})')
     return agent.place_block()
+
+  def post_evaluation_hook(self):
+    if has_method(self.red_agent, 'post_evaluation_hook'):
+      self.red_agent.post_evaluation_hook()
+    if has_method(self.blue_agent, 'post_evaluation_hook'):
+      self.blue_agent.post_evaluation_hook()

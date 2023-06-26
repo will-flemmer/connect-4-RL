@@ -9,14 +9,8 @@
 Agent has access to the connect four grid.
 
 ### Agent chooses action
-Agent chooses a column to drop a piece into. This is either a random choice or a choice based on the Q-table. In state S, the expected reward for taking action A is Q(S,A).
-```
-  Q(s,a) = r + x * max(Q(s',a'))
-```
-Where:
-- r is the reward for taking action a in state s (initially zero for all states, but will be updated once the environment has been explored)
-- x is the discount factor (0 <= x <= 1). This is used to balance immediate and future reward. If x is close to 0, the agent will be short-sighted and only care about immediate reward. If x is close to 1, the agent will be far-sighted and care about future reward.
-- max(Q(s',a')) is the maximum expected reward for any action a' in the new state s'. This is the estimated reward for the best possible action in the new state. (also initialised to zero)
+Agent chooses a column to drop a piece into. This is either a random choice or a choice based on the Q-function. In state S, the expected reward for taking action A is Q(S,A). The Q-Function is an approximation of the expected reward for taking action A in state S. The Q-Function is updated using gradient descent at the end of every turn (in the `post_evaluation_hook`).
+
 
 ### Agent takes action
 Agent drops a piece into the chosen column.
