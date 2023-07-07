@@ -1,5 +1,5 @@
 from RLearning.rl_agent import RLAgent
-from app.lifecycle_manager.lifecycle_manager import LifeCycleManager as Game
+from connect_four_game import Game
 
 
 COLUMN_COUNT = 7 # normally 7

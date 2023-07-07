@@ -1,5 +1,5 @@
 import random
-from app import BaseAgent
+from connect_four_game import BaseAgent
 import numpy as np
 
 class RLAgent(BaseAgent):
