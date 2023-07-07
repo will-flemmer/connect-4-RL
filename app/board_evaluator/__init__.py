@@ -1,1 +1,0 @@
-from .board_evaluator import BoardEvaluator
